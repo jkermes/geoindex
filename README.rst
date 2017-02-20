@@ -14,13 +14,9 @@ It was written and tested on Python 2.7.
 Installation
 ------------
 
-Get it from `pypi <http://pypi.python.org/pypi/geoindex>`_::
+Get it from `github <http://github.com/gusdan/geoindex>`_::
 
-    pip install geoindex
-
-or `github <http://github.com/gusdan/geoindex>`_::
-
-    pip install -e git://github.com/gusdan/geoindex.git#egg=geoindex
+    pip install -e git://github.com/jkermes/geoindex.git#egg=geoindex
 
 
 Simple use
@@ -29,16 +25,17 @@ Simple use
 If we have 100000 geo coordinates and we have to find some nearby location
 to given point and with given radius we can do something like this::
 
+    import random
     from geoindex import GeoGridIndex, GeoPoint
 
-    geo_index = GeoGridIndex()
+    index = GeoGridIndex()
     for _ in range(10000):
         lat = random.random()*180 - 90
         lng = random.random()*360 - 180
         index.add_point(GeoPoint(lat, lng))
 
     center_point = GeoPoint(37.7772448, -122.3955118)
-    for distance, point in index.get_nearest_points(center_point, 10, 'km'):
+    for point, distance in index.get_nearest_points(center_point, 10, 'km'):
         print("We found {0} in {1} km".format(point, distance))
 
 
@@ -54,7 +51,7 @@ and use it after::
         index.add_point(GeoPoint(lat, lng, ref=airport))
 
     center_point = GeoPoint(37.7772448, -122.3955118)
-    for distance, point in index.get_nearest_points(center_point, 10, 'km'):
+    for point, distance in index.get_nearest_points(center_point, 10, 'km'):
         print("We airport {0} in {1} km".format(point.ref, distance))
 
 
