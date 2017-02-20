@@ -87,3 +87,18 @@ class GeoGridIndex(object):
             distance = point.distance_to(center_point, unit)
             if distance <= radius:
                 yield point, distance
+
+    def get_nearest_point(self, center_point, radius, unit='km'):
+        """
+        return a geo point from circle with given center and radius
+        :param center_point: GeoPoint with center of search circle
+        :param radius: radius of search circle
+        :return: tuple with GeoPoints and distance
+        """
+        nearest = dist = None
+
+        for point, distance in self.get_nearest_points(center_point, radius, unit):
+            if nearest is None or distance < dist:
+                nearest, dist = point, distance
+
+        return nearest, dist
